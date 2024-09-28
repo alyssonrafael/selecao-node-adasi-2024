@@ -7,7 +7,7 @@ import {
   getCursoById,
   updateCurso,
 } from "../controllers/cursoController";
-import { validateCurso } from "../middleware/cursoMiddleware";
+import { validateCurso, validateCursoDeletar } from "../middleware/cursoMiddleware";
 
 const router = Router();
 
@@ -19,7 +19,7 @@ router.get("/cursos", getAllCursos);
 router.get("/curso/:id", getCursoById);
 //rota para atualizar um curso
 router.put("/curso/:id",validateCurso, updateCurso);
-//rota para deletar um curso
-router.delete("/curso/:id", deleteCurso);
+//rota para deletar um curso com validação se existem estudantes associados
+router.delete("/curso/:id",validateCursoDeletar, deleteCurso);
 
 export default router;

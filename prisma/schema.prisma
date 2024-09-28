@@ -14,6 +14,19 @@ datasource db {
 }
 
 model Curso {
-  id   String @id @default(uuid())
-  nome String
+  id         String      @id @default(uuid())
+  nome       String
+  estudantes Estudante[] // Relacionamento com Estudante
+
+  @@map("curso") //mapear para tabela especifica chamada curso
+}
+
+model Estudante {
+  cpf       String @id @unique
+  nome      String
+  matricula String @unique
+  cursoId   String
+  curso     Curso  @relation(fields: [cursoId], references: [id]) //relacionamento com o curso
+
+  @@map("estudantes") // mapear para uma tabela específica chamada esrudantes
 }
