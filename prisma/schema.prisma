@@ -30,3 +30,10 @@ model Estudante {
 
   @@map("estudantes") // mapear para uma tabela específica chamada esrudantes
 }
+
+model Tarefa {
+  id   String @id @default(uuid())
+  nome String
+
+  @@map("tarefa") // mapear para uma tabela específica chamada tarefa
+}
