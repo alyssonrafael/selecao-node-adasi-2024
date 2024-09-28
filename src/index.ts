@@ -4,6 +4,7 @@ import prisma from "./prismaClient";
 import cursoRoutes from "./routes/cursoRoutes";
 import estudantesRoutes from "./routes/estudanteRoutes"
 import tarefaRoutes from "./routes/tarefaRoutes"
+import atividadeRoutes from "./routes/atividadeRoutes"
 
 // Carregar variáveis de ambiente do .env
 dotenv.config();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use("/api", cursoRoutes);
 app.use("/api", estudantesRoutes);
 app.use("/api", tarefaRoutes)
+app.use("/api", atividadeRoutes)
 
 const PORT = process.env.PORT || 3333;
 

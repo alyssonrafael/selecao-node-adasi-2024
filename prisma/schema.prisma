@@ -18,22 +18,39 @@ model Curso {
   nome       String
   estudantes Estudante[] // Relacionamento com Estudante
 
-  @@map("curso") //mapear para tabela especifica chamada curso
+  @@map("curso") // Mapear para tabela específica chamada curso
 }
 
 model Estudante {
-  cpf       String @id @unique
-  nome      String
-  matricula String @unique
-  cursoId   String
-  curso     Curso  @relation(fields: [cursoId], references: [id]) //relacionamento com o curso
+  cpf        String      @id @unique
+  nome       String
+  matricula  String      @unique
+  cursoId    String
+  curso      Curso       @relation(fields: [cursoId], references: [id]) // Relacionamento com o curso
+  atividades Atividade[] // Relacionamento com Atividade
 
-  @@map("estudantes") // mapear para uma tabela específica chamada esrudantes
+  @@map("estudantes") // Mapear para uma tabela específica chamada estudantes
 }
 
 model Tarefa {
-  id   String @id @default(uuid())
-  nome String
+  id         String      @id @default(uuid())
+  nome       String
+  atividades Atividade[] // Relacionamento com Atividade
 
-  @@map("tarefa") // mapear para uma tabela específica chamada tarefa
+  @@map("tarefa") // Mapear para uma tabela específica chamada tarefa
+}
+
+model Atividade {
+  id                     String    @id @default(uuid())
+  tarefaId               String
+  tarefa                 Tarefa    @relation(fields: [tarefaId], references: [id]) // Relacionamento com Tarefa
+  estudanteId            String
+  estudante              Estudante @relation(fields: [estudanteId], references: [cpf]) // Relacionamento com Estudante
+  data                   DateTime  @db.Date // Representa apenas a data (sem horas)
+  horaAgendamentoInicio  DateTime  @db.Time // Representa apenas o tempo
+  horaAgendamentoTermino DateTime  @db.Time // Representa apenas o tempo
+  horaInicio             DateTime? @db.Time // Opcional, representa apenas o tempo
+  horaTermino            DateTime? @db.Time // Opcional, representa apenas o tempo
+
+  @@map("atividade")
 }
