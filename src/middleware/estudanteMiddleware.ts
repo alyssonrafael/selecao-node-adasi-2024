@@ -74,4 +74,32 @@ const validateUpdateEstudante = async (req: Request, res: Response, next: NextFu
   next();
 };
 
-export { validateEstudante, validateUpdateEstudante };
+// Middleware para verificar se um estudante possui atividades associadas
+ const verificarAtividadesAssociadas = async (
+   req: Request,
+   res: Response,
+   next: NextFunction
+ ) => {
+   const { cpf } = req.params; // Pega o CPF do estudante da URL
+ 
+   try {
+     // Verifica se o estudante possui atividades associadas
+     const atividades = await prisma.atividade.findMany({
+       where: { estudanteId: cpf },
+     });
+ 
+     if (atividades.length > 0) {
+        res.status(400).json({
+         message: "O estudante não pode ser excluído pois possui atividades associadas.",
+       });
+       return
+     }
+ 
+     next(); // Chama o próximo middleware ou a função de controle
+   } catch (error) {
+     console.error("Erro ao verificar atividades associadas:", error);
+     res.status(500).json({ message: "Erro ao verificar atividades." });
+   }
+ };
+
+export { validateEstudante, validateUpdateEstudante, verificarAtividadesAssociadas };

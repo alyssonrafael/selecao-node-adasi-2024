@@ -6,7 +6,7 @@ import {
   updateTarefa,
   deleteTarefa,
 } from "../controllers/tarefaController";
-import { validateTarefa } from "../middleware/tarefaMiddleware";
+import { validateTarefa, verificarAtividadesAssociadasTarefa } from "../middleware/tarefaMiddleware";
 
 const router = Router();
 
@@ -22,7 +22,7 @@ router.get("/tarefa/:id", getTarefaById);
 // Rota para atualizar uma tarefa usa o middleware para validar a entrada
 router.put("/tarefa/:id", validateTarefa, updateTarefa);
 
-// Rota para deletar uma tarefa
-router.delete("/tarefa/:id", deleteTarefa);
+// Rota para deletar uma tarefa usa o middleware para verificar se ha alguma atividade associada
+router.delete("/tarefa/:id",verificarAtividadesAssociadasTarefa, deleteTarefa);
 
 export default router;

@@ -24,7 +24,16 @@ export const createEstudante = async (req: Request, res: Response) => {
 //função para listar todos os estudantes
 export const getAllEstudantes = async (req: Request, res: Response) => {
   try {
-    const estudantes = await prisma.estudante.findMany();
+    const estudantes = await prisma.estudante.findMany({
+      // incluindo o nome do curso para facilitar o acesso para o frontend
+      include: {
+        curso: {
+          select: {
+            nome: true,
+          },
+        },
+      },
+    });
     res.json(estudantes);
   } catch (error) {
     console.error(error);
@@ -40,6 +49,14 @@ export const getEstudanteByCpf = async (req: Request, res: Response) => {
   try {
     const estudante = await prisma.estudante.findUnique({
       where: { cpf },
+      // incluindo o nome do curso para facilitar o acesso para o frontend
+      include: {
+        curso: {
+          select: {
+            nome: true,
+          },
+        },
+      },
     });
 
     if (!estudante) {

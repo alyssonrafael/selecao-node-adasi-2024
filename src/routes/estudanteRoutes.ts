@@ -7,7 +7,7 @@ import {
   getEstudanteByCpf,
   updateEstudante,
 } from '../controllers/estudanteController';
-import {validateEstudante, validateUpdateEstudante} from '../middleware/estudanteMiddleware'; 
+import {validateEstudante, validateUpdateEstudante, verificarAtividadesAssociadas} from '../middleware/estudanteMiddleware'; 
 
 const router = Router();
 //rota para cadastrar estudante com a validação do middleware
@@ -18,8 +18,8 @@ router.get('/estudantes', getAllEstudantes)
 router.get('/estudante/:cpf', getEstudanteByCpf)
 //rota para atualizar informeções de um estudante
 router.put('/estudante/:cpf',validateUpdateEstudante, updateEstudante)
-//rota para deletar estudante
-router.delete('/estudante/:cpf',deleteEstudante)
+//rota para deletar estudante usa o middleware para verificar se ha alguma atividade associada
+router.delete('/estudante/:cpf',verificarAtividadesAssociadas, deleteEstudante)
 
 
 export default router;
