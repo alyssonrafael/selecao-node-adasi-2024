@@ -7,12 +7,13 @@
     "start": "node dist/index.js",
     "dev": "nodemon --watch src --exec ts-node src/index.ts",
     "migrate": "npx prisma migrate dev",
-    "generate": "npx prisma generate"
+    "generate": "npx prisma generate",
+    "test": "jest"
   },
   "keywords": [],
-  "author": "",
+  "author": "alysson rafael",
   "license": "ISC",
-  "description": "",
+  "description": "projeto desenvolvido para selecao nodejs da adasi",
   "dependencies": {
     "@prisma/client": "^5.20.0",
     "dotenv": "^16.4.5",
@@ -20,9 +21,14 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.13",
     "@types/node": "^22.7.4",
+    "@types/supertest": "^6.0.2",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.7",
     "prisma": "^5.20.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   }

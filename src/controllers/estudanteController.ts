@@ -76,14 +76,25 @@ export const updateEstudante = async (req: Request, res: Response) => {
   const { nome, cursoId } = req.body;
 
   try {
-    const estudante = await prisma.estudante.update({
+    const estudante = await prisma.estudante.findUnique({
+      where: { cpf },
+    });
+
+    // Verifica se o estudante existe
+    if (!estudante) {
+       res.status(404).json({ message: "Estudante não encontrado." });
+       return
+    }
+
+    const updatedEstudante = await prisma.estudante.update({
       where: { cpf },
       data: {
         nome,
         cursoId,
       },
     });
-    res.json(estudante);
+
+    res.json(updatedEstudante);
   } catch (error) {
     res.status(500).json({ message: "Erro ao atualizar estudante." });
   }

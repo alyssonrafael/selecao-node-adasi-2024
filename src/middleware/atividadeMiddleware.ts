@@ -165,35 +165,42 @@ export const validateToleranciaInicio = async (req: Request, res: Response, next
 
 // Middleware para validar encerramento de atividades
 export const validateEncerramento = async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params; 
-    const { horaTermino } = req.body; // Pega a hora de término do corpo da requisição
-    
-    try {
+  const { id } = req.params; 
+  const { horaTermino } = req.body; // Pega a hora de término do corpo da requisição
+  
+  try {
       // Busca a atividade no banco de dados
       const atividade = await prisma.atividade.findUnique({
-        where: { id },
-        select: { horaInicio: true }, // Seleciona apenas a hora de início
+          where: { id },
+          select: { horaInicio: true, horaAgendamentoInicio: true }, // Seleciona a hora de início e hora de agendamento
       });
-  
+
       // Verifica se a atividade existe
       if (!atividade) {
-         res.status(404).json({ error: "Atividade não encontrada." });
-         return
+          res.status(404).json({ error: "Atividade não encontrada." });
+          return;
       }
-  
-      // Converte a hora de início e a hora de término para o formato Date
+
+      // Verifica se a atividade foi iniciada
+      if (!atividade.horaInicio) {
+          res.status(400).json({ error: "A atividade deve ser iniciada antes de ser encerrada." });
+          return;
+      }
+
+      // Converte a hora de início, hora de agendamento e hora de término para o formato Date
       const horaInicioDate = new Date(`${atividade.horaInicio}`);
+      const horaAgendamentoInicioDate = new Date(`${atividade.horaAgendamentoInicio}`);
       const horaTerminoDate = new Date(`1970-01-01T${horaTermino}Z`); // Usa 'Z' para UTC
 
-      // Verifica se a hora de término é posterior à hora de início
-      if (horaTerminoDate <= horaInicioDate) {
-         res.status(400).json({ error: "A hora de término deve ser posterior à hora de início." });
-         return
+      // Verifica se a hora de término é posterior à hora de início e à hora de agendamento
+      if (horaTerminoDate <= horaInicioDate || horaTerminoDate <= horaAgendamentoInicioDate) {
+          res.status(400).json({ error: "A hora de término deve ser posterior à hora de início e à hora de agendamento." });
+          return;
       }
-  
+
       next(); // Chama o próximo middleware ou a função de controle
-    } catch (error) {
+  } catch (error) {
       console.error("Erro ao validar encerramento da atividade:", error);
       res.status(500).json({ message: "Erro ao validar encerramento da atividade." });
-    }
-  };
+  }
+};

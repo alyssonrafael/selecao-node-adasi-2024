@@ -51,3 +51,37 @@ Antes de começar, você precisará ter os seguintes softwares instalados:
    ```
    npm run dev
    ```
+7. Testes:
+
+   1. Os teste podem ser realizados no postman ou atravez dos testes unitarios do Jest
+   2. Testes utilizando o Jest --
+      1. Primeiro, pare o servidor que está sendo executado.
+      2. **Certifique-se de que o banco de dados ao qual o servidor está se conectando é um banco de dados de teste, pois os testes do Jest, ao serem finalizados, apagam automaticamente todos os dados do banco. E recomendado Realizar os testes em um banco de dados separado e todalmente limpo. Para perfeito funcionamento dos testes.**
+      3. Iniciar os teste:
+         1. Teste das rotas da entidade Curso: no terminal, execute o seguinte comando:
+
+            ```
+             npm test src/__tests__/curso.test.ts
+            ```
+         2. Teste das rotas da entidade Estudante: no terminal, execute o seguinte comando:
+
+            ```
+             npm test src/__tests__/estudante.test.ts
+            ```
+         3. Teste das rotas da entidade Tarefa: no terminal, execute o seguinte comando:
+
+            ```
+             npm test src/__tests__/tarefa.test.ts
+            ```
+         4. Teste das rotas da entidade Atividade: no terminal, execute o seguinte comando:
+
+            ```
+             npm test src/__tests__/atividade.test.ts
+            ```
+      4. Após isso, os testes estão finalizados. Você pode saber mais sobre eles acessando a pasta `/src/__tests__/`.
+      5. Os dados dos testes realizados por esses comandos não persistem no banco de dados, então certifique-se de que o banco é um banco de teste.
+      6. Os testes são realizados um a um para evitar confitos e erros pela criação de entidades
+   3. Testes utilizando o Postman:
+      1. A documentação completa da API pode ser acessada através do Postman no seguinte link:
+      2. [Documentação da API - Postman](https://www.postman.com/mission-geoscientist-35571721/public/collection/2ls23tj/api-selecao-node-adasi-2024-copy?action=share&creator=28830468)
+      3. Os teste podem ser feitos de forma manual assim como esta na documentação
